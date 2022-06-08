@@ -1,0 +1,1379 @@
+{
+	"info": {
+		"_postman_id": "6c339568-265e-4aa0-a8f8-f9f346c3c740",
+		"name": "开放平台",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12658089"
+	},
+	"item": [
+		{
+			"name": "账户中心",
+			"item": [
+				{
+					"name": "登录",
+					"item": [
+						{
+							"name": "登录--正常登录",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200)\r",
+											"}) \r",
+											"\r",
+											"pm.test(\"登录成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.result).to.eql(\"登陆成功\");\r",
+											"});\r",
+											"\r",
+											"var Data = JSON.parse(responseBody);\r",
+											"pm.environment.set(\"ticket\", Data.data);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"if (pm.environment.get(\"URL\") === \"https://open2.ovopark.com\"){\r",
+											"pm.environment.set(\"usrname\", 18260132414);\r",
+											"pm.environment.set(\"password\", \"e10adc3949ba59abbe56e057f20f883e\");}\r",
+											"\r",
+											"else if (pm.environment.get(\"URL\") === \"https://open3.ovopark.com\"){\r",
+											"pm.environment.set(\"usrname\", 18260132414);\r",
+											"pm.environment.set(\"password\", \"2e9930c3353ff5244ea581b4821e948b\");}\r",
+											"\r",
+											"else if (pm.environment.get(\"URL\") === \"https://docs.open.ovopark.com\"){\r",
+											"pm.environment.set(\"usrname\", 18260132414);\r",
+											"pm.environment.set(\"password\", \"2e9930c3353ff5244ea581b4821e948b\");}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "{{usrname}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{password}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/developer/user/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"developer",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "登录--登录接口用户名参数校验",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"登录接口密码参数校验\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.result).to.eql(\"参数效验异常\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{password}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/developer/user/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"developer",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "登录--登录接口密码参数校验",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"登录接口用户名参数校验\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.result).to.eql(\"参数效验异常\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "{{usrname}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/developer/user/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"developer",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "登录--错误用户信息登录返回用户不存在",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"错误用户信息登录返回用户不存在\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.result).to.eql(\"用户不存在\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "sdfdsdf",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "fsdfsd",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/developer/user/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"developer",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "个人中心",
+					"item": [
+						{
+							"name": "获取开发者信息",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//添加ticket到请求头\r",
+											"pm.request.headers.add(\r",
+											"    {key: \"ticket\",\r",
+											"    value: pm.environment.get(\"ticket\")}\r",
+											")\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"})\r",
+											"\r",
+											"var data = JSON.parse(responseBody);\r",
+											"if (data.codename === \"SUCCESS\"){\r",
+											"pm.environment.set(\"usercode\", data.data.usercode);\r",
+											"pm.environment.set(\"isOldUser\", data.data.isOldUser + '');   //隐式转换string\r",
+											"//pm.environment.set(\"isOldUser\", String(data.data.isOldUser));  强制转换string\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/developer/user/getUserInfo",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"developer",
+										"user",
+										"getUserInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取开发者密匙密钥",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.request.addQueryParams(\r",
+											"    {\r",
+											"        key: \"usercode\",\r",
+											"        value: pm.environment.get(\"usercode\")\r",
+											"    }\r",
+											");\r",
+											"pm.request.addQueryParams(\r",
+											"    {\r",
+											"        key: \"isOldUser\",\r",
+											"        value: pm.environment.get(\"isOldUser\")\r",
+											"    }\r",
+											");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});\r",
+											"\r",
+											"if(pm.environment.get(\"isOldUser\") === \"1\"){\r",
+											"    postman.setNextRequest(\"根据用户帐号查询开放平台组织架构信息\")\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ticket",
+										"value": "{{ticket}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getUserByUsercode",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getUserByUsercode"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "应用中心",
+					"item": [
+						{
+							"name": "获取企业信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ticket",
+										"value": "{{ticket}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/developer/enterprise/getEnterPrise",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"developer",
+										"enterprise",
+										"getEnterPrise"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取应用列表",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});\r",
+											"\r",
+											"var data = JSON.parse(responseBody);\r",
+											"if (data.data.records.length == 0){\r",
+											"    postman.setNextRequest(\"获取所有接口信息\");\r",
+											"}\r",
+											"else pm.environment.set(\"appName\",data.data.records[0].appName)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "userCode",
+											"value": "{{usercode}}",
+											"type": "text"
+										},
+										{
+											"key": "pageNo",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "pageSize",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "appName",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getAppList",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getAppList"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "检测应用创建数",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"var data =pm.response.json();\r",
+											"if (data.codename === \"APP_COUNT_EXCEEDS_LIMIT_CODE\"){\r",
+											"    postman.setNextRequest(删除应用)\r",
+											"    }"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "userCode",
+											"value": "{{usercode}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getAppCreateLimit",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getAppCreateLimit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "新增应用",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCode\": \"{{usercode}}\",\r\n    \"appName\": \"TEST{{$timestamp}}\",\r\n    \"description\": \"描述{{$timestamp}}\",\r\n    \"jsonStr\": [\r\n        {\r\n            \"groupId\": 1,\r\n            \"apiIds\": [\r\n                316,\r\n                286,\r\n                285,\r\n                247,\r\n                246\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 6,\r\n            \"apiIds\": [\r\n                381,\r\n                380,\r\n                379,\r\n                206,\r\n                205,\r\n                199,\r\n                372,\r\n                488,\r\n                486\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 8,\r\n            \"apiIds\": [\r\n                281\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 11,\r\n            \"apiIds\": [\r\n                450,\r\n                309,\r\n                308,\r\n                304,\r\n                301,\r\n                279,\r\n                415,\r\n                300,\r\n                299,\r\n                458\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 12,\r\n            \"apiIds\": [\r\n                294,\r\n                293,\r\n                227,\r\n                216,\r\n                290,\r\n                215,\r\n                289,\r\n                288,\r\n                439,\r\n                257,\r\n                256,\r\n                284,\r\n                254,\r\n                253,\r\n                248,\r\n                297,\r\n                407,\r\n                245,\r\n                382\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 13,\r\n            \"apiIds\": [\r\n                266,\r\n                264,\r\n                291,\r\n                263,\r\n                262,\r\n                446,\r\n                261,\r\n                445,\r\n                259,\r\n                287,\r\n                258,\r\n                491,\r\n                251,\r\n                278,\r\n                267\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 14,\r\n            \"apiIds\": [\r\n                228,\r\n                448,\r\n                447,\r\n                319,\r\n                504,\r\n                438,\r\n                306,\r\n                472,\r\n                469,\r\n                274,\r\n                269,\r\n                296\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 15,\r\n            \"apiIds\": [\r\n                378,\r\n                377,\r\n                375,\r\n                419,\r\n                418,\r\n                417,\r\n                411,\r\n                410,\r\n                456,\r\n                451\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 16,\r\n            \"apiIds\": [\r\n                503,\r\n                416\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 17,\r\n            \"apiIds\": [\r\n                302\r\n            ]\r\n        },\r\n        {\r\n            \"groupId\": 21,\r\n            \"apiIds\": [\r\n                490\r\n            ]\r\n        }\r\n    ],\r\n    \"appId\": \"DC-000027\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/newAndEditApplication",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"newAndEditApplication"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "根据应用名搜索应用信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});\r",
+											"\r",
+											"var data = JSON.parse(responseBody);\r",
+											"pm.environment.set(\"appId\", data.data.records[0].appId)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "userCode",
+											"value": "{{usercode}}",
+											"type": "text"
+										},
+										{
+											"key": "pageNo",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "pageSize",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "appName",
+											"value": "{{appName}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getAppList",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getAppList"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "产看应用详情",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});\r",
+											"\r",
+											"var data = JSON.parse(responseBody);\r",
+											"if (data.data.data.filterConditions.parents !== [] && data.data.data.filterConditions.groups !== []){\r",
+											"    pm.environment.set(\"parentIds\", data.data.data.filterConditions.parents[0].value);\r",
+											"    pm.environment.set(\"apiGroupIds\", data.data.data.filterConditions.groups[0].value)\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"apiName\": \"\",\r\n    \"userCode\": \"{{usercode}}\",\r\n    \"pageNo\": 1,\r\n    \"pageSize\": 10,\r\n    \"apiGroupIds\": [],\r\n    \"parentIds\": [],\r\n    \"appId\": \"{{appId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getAppInfo",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getAppInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "根据服务筛选api列表",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"apiName\": \"\",\r\n    \"userCode\": \"18260132414\",\r\n    \"pageNo\": 1,\r\n    \"pageSize\": 10,\r\n    \"apiGroupIds\": [{{apiGroupIds}}],\r\n    \"parentIds\": [],\r\n    \"appId\": \"DC-000015\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getAppInfo",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getAppInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "根据应用场景筛选api列表",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"apiName\": \"\",\r\n    \"userCode\": \"18260132414\",\r\n    \"pageNo\": 1,\r\n    \"pageSize\": 10,\r\n    \"apiGroupIds\": [],\r\n    \"parentIds\": [{{parentIds}}],\r\n    \"appId\": \"DC-000015\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getAppInfo",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getAppInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "修改应用基本信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCode\": \"{{usercode}}\",\r\n    \"appId\": \"{{appId}}\",\r\n    \"appName\": \"{{appName}}\",\r\n    \"description\": \"随机修改{{$timestamp}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/newAndEditApplication",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"newAndEditApplication"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取应用详细信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "userCode",
+											"value": "{{usercode}}",
+											"type": "text"
+										},
+										{
+											"key": "appId",
+											"value": "{{appId}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getAppInfoAndApiList",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getAppInfoAndApiList"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取所有接口信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "userCode",
+											"value": "{{usercode}}",
+											"type": "text"
+										},
+										{
+											"key": "appId",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getAppInfoAndApiList",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getAppInfoAndApiList"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "删除应用",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "appId",
+											"value": "{{appId}}",
+											"type": "text"
+										},
+										{
+											"key": "userCode",
+											"value": "{{usercode}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/delApp",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"delApp"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "回调配置",
+					"item": [
+						{
+							"name": "根据用户帐号查询开放平台组织架构信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "usercode",
+											"value": "{{usercode}}",
+											"type": "text"
+										},
+										{
+											"key": "callMode",
+											"value": "1",
+											"description": "1 开放平台，2 业务平台",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getOrgsByCallMode",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getOrgsByCallMode"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "根据用户帐号查询业务平台组织架构信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"})\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(jsonData)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "usercode",
+											"value": "{{usercode}}",
+											"type": "text"
+										},
+										{
+											"key": "callMode",
+											"value": "2",
+											"description": "1 开放平台，2 业务平台",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getOrgsByCallMode",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getOrgsByCallMode"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "查询回调信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "usercode",
+											"value": "{{usercode}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getCallBackUrlsByUsercode",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getCallBackUrlsByUsercode"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "通用配置",
+					"item": [
+						{
+							"name": "查询全局配置信息",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "usercode",
+											"value": "{{usercode}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/getGeneralConfiguration",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"getGeneralConfiguration"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "更改通用配置",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"判断接口请求是否成功\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.codename).to.eql(\"SUCCESS\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ticket",
+										"value": "{{ticket}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "usercode",
+											"value": "{{usercode}}",
+											"type": "text"
+										},
+										{
+											"key": "faceCallBackUrl",
+											"value": "sssssstti",
+											"type": "text"
+										},
+										{
+											"key": "authenticator",
+											"value": "273D4EC0F48B72C938D854DC978614405AA66E8413053DD9C1DE4278F685FFFD835261564193F95C61DFE800AAB22DD2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/dc/openplatform/base/v1/saveOrUpdateConfig",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"dc",
+										"openplatform",
+										"base",
+										"v1",
+										"saveOrUpdateConfig"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//pm.environment.set(\"URL\",\"https://open2.ovopark.com\")",
+							"//pm.environment.set(\"URL\",\"https://open3.ovopark.com\")",
+							"//pm.environment.set(\"URL\",\"https://docs.open.ovopark.com\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
